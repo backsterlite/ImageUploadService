@@ -36,7 +36,43 @@
                     </div>
                 </div>
             </div>
-
+            <?php if(auth()->isLoggedIn()) :?>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button is-primary" href="login.html">
+                      <span class="icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                                <span>Загрузить картинку</span>
+                            </a>
+                        </p>
+                        <div class="account control">
+                            <p>
+                                Здравствуйте, <b><?= auth()->getUsername()?></b>
+                            </p>
+                        </div>
+                        <p class="control">
+                            <a class="button is-info" href="login.html">
+                      <span class="icon">
+                        <i class="fas fa-user"></i>
+                      </span>
+                                <span>Профиль</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button is-dark" href="login.html">
+                      <span class="icon">
+                        <i class="fas fa-window-close"></i>
+                      </span>
+                                <span>Выйти</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <?php else: ?>
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="field is-grouped">
@@ -59,6 +95,8 @@
                     </div>
                 </div>
             </div>
+            <?php endif;?>
+
         </div>
     </nav>
 </div>

@@ -38,6 +38,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/category{id:\id+}', ['App\controllers\HomeController', 'category']);
 
     $r->get('/login', ['App\controllers\LoginController', 'showForm']);
+    $r->post('/login', ['App\controllers\LoginController', 'login']);
     $r->get('/register', ['App\controllers\RegisterController', 'showForm']);
     $r->post('/register', ['App\controllers\RegisterController', 'registration']);
     $r->get('/verify_email', ['App\controllers\VerificationController', 'verify']);
