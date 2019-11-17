@@ -97,6 +97,21 @@ class Database
         $id = $this->pdo->lastInsertId($name);
         return $result;
     }
+    public function delete($table, $id)
+    {
+        $delete = $this->queryFactory->newDelete();
+
+        $delete
+            ->from($table)                   // FROM this table
+            ->where('id = :id')           // AND WHERE these conditions
+            ->bindValue('id', $id);
+
+        // prepare the statement
+        $sth = $this->pdo->prepare($delete->getStatement());
+
+        // execute with bound values
+        $sth->execute($delete->getBindValues());
+    }
 
     public function whereAll($table, $row, $id, $limit = 4)
     {

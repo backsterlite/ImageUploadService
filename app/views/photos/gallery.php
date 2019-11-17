@@ -31,7 +31,7 @@
                                     <a href="/photos/<?= $photo['id'];?>/edit" class="button is-warning">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <a href="/photos/<?= $photo['id'];?>/delete" class="button is-danger">
+                                    <a href="/photos/<?= $photo['id'];?>/delete" class="button is-danger" onclick="confirm('Вы уверены?')">
                                         <i class="fa fa-times"></i>
                                     </a>
                                 </p>

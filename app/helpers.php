@@ -28,7 +28,7 @@ function abort($type)
     switch ($type) {
         case 404:
             $view = components(\League\Plates\Engine::class);
-            echo $view->render('errors/404');exit;
+            echo $view->render('errors/404/index');exit;
         break;
     }
 }

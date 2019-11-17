@@ -1,62 +1,60 @@
-.wrapper {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+@import url("https://fonts.googleapis.com/css?family=Bevan");
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
-
-.main-content {
-  flex: 1;
+body {
+    background: #282828;
+    overflow: hidden;
 }
-
-.auth-form {
-	padding: 100px 0px;
+p {
+    font-family: "Bevan", cursive;
+    font-size: 130px;
+    margin: 10vh 0 0;
+    text-align: center;
+    letter-spacing: 5px;
+    background-color: black;
+    color: transparent;
+    text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.1);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
 }
-
-time {
-	margin-top: 10px;
+p span {
+    font-size: 1.2em;
 }
-
-.account {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
+code {
+    color: #bdbdbd;
+    text-align: center;
+    display: block;
+    font-size: 16px;
+    margin: 0 30px 25px;
 }
-
-.account p {
-	font-size: 18px;
+code span {
+    color: #f0c674;
 }
-
-.pt-100 {
-	padding-top: 100px;
+code i {
+    color: #b5bd68;
 }
-
-.alert {
-    background-color: whitesmoke;
-    border-radius: 3px;
-    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
-    position: relative;
+code em {
+    color: #b294bb;
+    font-style: unset;
 }
-
-.alert-danger {
-    background-color: #ff3860;
-    color: #fff;
+code b {
+    color: #81a2be;
+    font-weight: 500;
 }
-
-.manager-links a {
-  display: block;
-  margin: 10px;
-  text-align: left;
+a {
+    color: #8abeb7;
+    font-family: monospace;
+    font-size: 20px;
+    text-decoration: underline;
+    margin-top: 10px;
+    display: inline-block;
 }
-
-.my-photo {
-  flex-flow: column-reverse;
-}
-
-.my-photo a {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.my-photo .media-left {
-  width: 100%;
+@media screen and (max-width: 880px) {
+    p {
+        font-size: 14vw;
+    }
 }

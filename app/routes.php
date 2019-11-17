@@ -60,6 +60,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->post('/photos/store', ['App\controllers\PhotoController', 'store']);
     $r->get('/photos/gallery', ['App\controllers\PhotoController', 'index']);
     $r->get('/photos/{id:\d+}', ['App\controllers\PhotoController', 'showOne']);
+    $r->get('/photos/{id:\d+}/edit', ['App\controllers\PhotoController', 'edit']);
+    $r->post('/photos/{id:\d+}/update', ['App\controllers\PhotoController', 'update']);
+    $r->get('/photos/{id:\d+}/delete', ['App\controllers\PhotoController', 'delete']);
+
     $r->get('/photos/download/{id:\d+}', ['App\controllers\PhotoController', 'download']);
 
 });
@@ -78,7 +82,8 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        echo '404 Not Found';
+        abort(404);
+//        echo '404 Not Found';
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];

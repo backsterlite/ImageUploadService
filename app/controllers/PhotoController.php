@@ -85,6 +85,49 @@ class PhotoController extends Controller
         $image = $this->database->find('photos', $id);
         echo $this->view->render('photos/download', compact('image'));
     }
+
+    public function edit($id)
+    {
+        $photo = $this->database->find('photos', $id);
+        echo $this->view->render('photos/edit', compact('photo'));
+    }
+
+    public function update($id)
+    {
+        $validator = v::key('title', v::stringType()->notEmpty())
+            ->key('description', v::stringType()->notEmpty())
+            ->key('category_id', v::intVal())
+            ->keyNested('image.tmp_name', v::optional(v::image()));
+
+        $this->validate($validator);
+        $photo = $this->database->find('photos', $id);
+
+        $image = $this->imageManager->uploadImage($_FILES['image'], $photo['image']);
+        $dimensions = $this->imageManager->getDimensions($image);
+
+        $data = [
+            "image" =>  $image,
+            "title" =>  $_POST['title'],
+            "description" =>  $_POST['description'],
+            "category_id" =>  $_POST['category_id'],
+            "user_id"   =>  $this->auth->getUserId(),
+            "dimensions"    =>  $dimensions
+        ];
+
+        $this->database->update('photos', $data, $id );
+
+        flash()->success(['Запись успешно обновлена']);
+
+        return back();
+    }
+
+    public function delete($id)
+    {
+        $this->database->delete('photos', $id);
+        flash()->success(['Запись успешно удалена']);
+
+        return back();
+    }
     private function validate($validator)
     {
         try {
