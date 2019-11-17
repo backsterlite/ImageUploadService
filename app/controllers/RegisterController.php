@@ -13,9 +13,9 @@ class RegisterController extends Controller
 
     private $mailer;
 
-    public function __construct(Engine $view, Auth $auth , Mail $mailer)
+    public function __construct(Mail $mailer)
     {
-        parent::__construct($view, $auth);
+        parent::__construct();
         $this->mailer = $mailer;
     }
 

@@ -4,6 +4,7 @@
 namespace App\controllers;
 
 
+use App\models\Database;
 use Delight\Auth\Auth;
 use League\Plates\Engine;
 
@@ -14,10 +15,13 @@ class Controller
 
     protected $auth;
 
-    public function __construct(Engine $view, Auth $auth)
+    protected $database;
+
+    public function __construct()
     {
 
-        $this->view = $view;
-        $this->auth = $auth;
+        $this->view = components(Engine::class);
+        $this->auth = components(Auth::class);
+        $this->database = components(Database::class);
     }
 }

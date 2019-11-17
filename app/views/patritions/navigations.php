@@ -17,22 +17,15 @@
                     Главная
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" href="category.html">
+                    <a class="navbar-link" href="#">
                         Категории
                     </a>
                     <div class="navbar-dropdown is-boxed">
-                        <a class="navbar-item" href="category.html">
-                            Природа
-                        </a>
-                        <a class="navbar-item" href="category.html">
-                            Машины
-                        </a>
-                        <a class="navbar-item" href="category.html">
-                            Дизайн и Интерьер
-                        </a>
-                        <a class="navbar-item" href="category.html">
-                            Животные
-                        </a>
+                        <?php foreach(getAllCategories() as $category):?>
+                            <a class="navbar-item" href="/category/<?= $category['id'];?>">
+                                <?= $category['title'];?>
+                            </a>
+                        <?php endforeach;?>
                     </div>
                 </div>
             </div>
@@ -40,21 +33,46 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="field is-grouped">
-                        <p class="control">
-                            <a class="button is-primary" href="login.html">
-                      <span class="icon">
-                        <i class="fas fa-upload"></i>
-                      </span>
-                                <span>Загрузить картинку</span>
-                            </a>
-                        </p>
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                    <span>Управление</span>
+                                    <span class="icon is-small">
+                                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-item manager-links">
+                                        <p class="control">
+                                            <a class="button" href="/photos/create">
+                                            <span class="icon">
+                                              <i class="fas fa-upload"></i>
+                                            </span>
+                                                <span>Загрузить картинку</span>
+                                            </a>
+                                        </p>
+
+                                        <p class="control">
+                                            <a class="button" href="/photos/gallery">
+                                            <span class="icon">
+                                              <i class="fas fa-list"></i>
+                                            </span>
+                                                <span>Моя галерея</span>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="account control">
                             <p>
                                 Здравствуйте, <b><?= auth()->getUsername()?></b>
                             </p>
                         </div>
                         <p class="control">
-                            <a class="button is-info" href="login.html">
+                            <a class="button is-info" href="/profile/info">
                       <span class="icon">
                         <i class="fas fa-user"></i>
                       </span>
@@ -62,7 +80,7 @@
                             </a>
                         </p>
                         <p class="control">
-                            <a class="button is-dark" href="login.html">
+                            <a class="button is-dark" href="/logout">
                       <span class="icon">
                         <i class="fas fa-window-close"></i>
                       </span>

@@ -33,15 +33,35 @@ $containerBuilder->addDefinitions([
     }
 ]);
 $container = $containerBuilder->build();
+
+
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/', ['App\controllers\HomeController', 'index']);
-    $r->get('/category{id:\id+}', ['App\controllers\HomeController', 'category']);
+    $r->get('/category/{id:\d+}', ['App\controllers\HomeController', 'category']);
+    $r->get('/user/{id:\d+}', ['App\controllers\HomeController', 'user']);
+
 
     $r->get('/login', ['App\controllers\LoginController', 'showForm']);
+    $r->get('/logout', ['App\controllers\LoginController', 'logout']);
     $r->post('/login', ['App\controllers\LoginController', 'login']);
     $r->get('/register', ['App\controllers\RegisterController', 'showForm']);
     $r->post('/register', ['App\controllers\RegisterController', 'registration']);
     $r->get('/verify_email', ['App\controllers\VerificationController', 'verify']);
+
+    $r->get('/profile/info', ['App\controllers\ProfileController', 'showProfileInfo']);
+    $r->post('/profile/info', ['App\controllers\ProfileController', 'updateUserInfo']);
+
+    $r->get('/profile/security', ['App\controllers\ProfileController', 'showProfileSecurity']);
+    $r->post('/profile/security', ['App\controllers\ProfileController', 'updateUserSecurity']);
+
+
+
+    $r->get('/photos/create', ['App\controllers\PhotoController', 'create']);
+    $r->post('/photos/store', ['App\controllers\PhotoController', 'store']);
+    $r->get('/photos/gallery', ['App\controllers\PhotoController', 'index']);
+    $r->get('/photos/{id:\d+}', ['App\controllers\PhotoController', 'showOne']);
+    $r->get('/photos/download/{id:\d+}', ['App\controllers\PhotoController', 'download']);
+
 });
 
 
@@ -58,11 +78,11 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        // ... 404 Not Found
+        echo '404 Not Found';
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];
-        // ... 405 Method Not Allowed
+        echo '405 Method Not Allowed';
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];

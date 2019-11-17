@@ -1,7 +1,7 @@
 <?php
 
-use App\Services\Database;
-use App\Services\Roles;
+use App\models\Database;
+use App\models\Roles;
 use Delight\Auth\Auth;
 use JasonGrimes\Paginator;
 
@@ -56,7 +56,7 @@ function getRole($key)
 }
 
 function getImage($image) {
-    return (new \App\Services\ImageManager())->getImage($image);
+    return (new \App\models\ImageManager())->getImage($image);
 }
 
 function paginate($count, $page, $perPage, $url)
@@ -73,7 +73,7 @@ function paginate($count, $page, $perPage, $url)
 
 function paginator($paginator)
 {
-    include config('views_path') . 'partials/pagination.php';
+    include config('views_path') . 'patritions/paginator.php';
 }
 
 function uploadedDate($timestamp)
@@ -86,7 +86,7 @@ function getCategory($id)
     global $container;
     $queryFactory = $container->get('Aura\SqlQuery\QueryFactory');
     $pdo = $container->get('PDO');
-    $database = new Database($pdo, $queryFactory);
+    $database = new Database($queryFactory, $pdo);
     return $database->find('categories', $id);
 }
 
@@ -95,7 +95,7 @@ function getAllCategories()
     global $container;
     $queryFactory = $container->get('Aura\SqlQuery\QueryFactory');
     $pdo = $container->get('PDO');
-    $database = new Database($pdo, $queryFactory);
+    $database = new Database($queryFactory, $pdo);
     return $database->all('categories');
 }
 

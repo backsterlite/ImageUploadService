@@ -1,0 +1,1 @@
+<img src="<?= getImage($image['image']);?>" alt="Placeholder image">
