@@ -60,8 +60,8 @@
                 </div>
               </form>
             <div class="field">
-              <p>Забыли пароль? <b><a href="/password-reset">Восстановление пароля</a></b></p>
-              <p>Не пришло письмо подтверждения? <b><a href="/email-verification">Переотправить</a></b></p>
+              <p>Забыли пароль? <b><a href="/password-recovery">Восстановление пароля</a></b></p>
+              <p>Не пришло письмо подтверждения? <b><a href="/verify_email">Переотправить</a></b></p>
             </div>
           </div>
           <div class="column"></div>

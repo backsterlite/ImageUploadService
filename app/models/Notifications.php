@@ -21,4 +21,10 @@ class Notifications
             $message = 'https://example02/verify_email?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
             $this->mailer->send($email, $message);
         }
+
+    public function recoveryPassword($email, $selector,  $token)
+    {
+        $message = 'https://example02/password-recovery/form?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
+        $this->mailer->send($email, $message);
+    }
 }

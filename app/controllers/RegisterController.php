@@ -5,48 +5,83 @@ namespace App\controllers;
 
 
 use App\models\Mail;
+use App\models\RegisterModel;
 use Delight\Auth\Auth;
 use League\Plates\Engine;
+use Respect\Validation\Exceptions\ValidationException;
+use Respect\Validation\Validator as v;
 
 class RegisterController extends Controller
 {
 
-    private $mailer;
+    private $registration;
 
-    public function __construct(Mail $mailer)
+    public function __construct(RegisterModel $registration)
     {
         parent::__construct();
-        $this->mailer = $mailer;
+        $this->registration = $registration;
     }
-
 
     public function showForm()
     {
         echo $this->view->render('auth/register');
     }
-    public function registration()
+
+    public function register()
     {
-
+        $this->validate();
         try {
-            $userId = $this->auth->register($_POST['email'], $_POST['password'], $_POST['username'], function ($selector, $token) {
-                $message = "http://example02/verify_email?selector=" . \urlencode($selector) . '&token=' . \urlencode($token);
-                $this->mailer->send($_POST['email'], $message);
-                header('Location: /login');
-            });
-
-
+            $this->registration->make(
+                $_POST['email'],
+                $_POST['password'],
+                $_POST['username']
+            );
+            flash()->success(['На вашу почту ' . $_POST['email'] . ' был отправлен код с подтверждением.']);
+            return redirect('/login');
         }
         catch (\Delight\Auth\InvalidEmailException $e) {
-            die('Invalid email address');
+            flash()->error(['Неправильный email']);
         }
         catch (\Delight\Auth\InvalidPasswordException $e) {
-            die('Invalid password');
+            flash()->error(['Неправильный пароль']);
         }
         catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            die('User already exists');
+            flash()->error(['Пользователь уже существует']);
         }
         catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            flash()->error(['Слишком много раз пытаетесь зарегаться']);
         }
+
+        return redirect('/register');
+    }
+
+    private function validate()
+    {
+        $validator = v::key('username', v::stringType()->notEmpty())
+            ->key('email', v::email())
+            ->key('password', v::stringType()->notEmpty())
+            ->key('terms', v::trueVal())
+            ->keyValue('password_confirmation', 'equals', 'password');
+
+        try {
+            $validator->assert($_POST);
+
+        } catch (ValidationException $exception) {
+            $exception->findMessages($this->getMessages());
+            flash()->error($exception->getMessages());
+
+            return redirect('/register');
+        }
+    }
+
+    private function getMessages()
+    {
+        return [
+            'terms'   =>  'Вы должны согласится с правилами.',
+            'username' => 'Введите имя',
+            'email' => 'Неверный формат e-mail',
+            'password'  =>  'Введите пароль',
+            'password_confirmation' =>  'Пароли не сопадают'
+        ];
     }
 }

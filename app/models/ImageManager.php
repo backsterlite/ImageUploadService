@@ -37,7 +37,7 @@ class ImageManager
         return false;
     }
 
-    private function deleteImage($path)
+    public function deleteImage($path)
     {
         if($this->checkImageExists($path))
         {

@@ -90,6 +90,15 @@ function getCategory($id)
     return $database->find('categories', $id);
 }
 
+function getUser($id)
+{
+    global $container;
+    $queryFactory = $container->get('Aura\SqlQuery\QueryFactory');
+    $pdo = $container->get('PDO');
+    $database = new Database($queryFactory, $pdo);
+    return $database->find('users', $id);
+}
+
 function getAllCategories()
 {
     global $container;

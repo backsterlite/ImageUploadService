@@ -25,4 +25,13 @@ class Mail
         return $this->mailer->send($message);
 
     }
+    public function sendChangePassword($mail, $body)
+    {
+        $message = (new \Swift_Message('Смена пароля'))
+            ->setfrom('coilofluck@gmail.com','Our Portal')
+            ->setTo($mail)
+            ->setBody($body);
+        return $this->mailer->send($message);
+
+    }
 }

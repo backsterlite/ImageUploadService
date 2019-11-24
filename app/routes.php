@@ -4,6 +4,7 @@ use App\models\Database;
 use Aura\SqlQuery\QueryFactory;
 use Delight\Auth\Auth;
 use DI\ContainerBuilder ;
+use FastRoute\RouteCollector;
 use League\Plates\Engine;
 
 $containerBuilder = new ContainerBuilder();
@@ -18,7 +19,7 @@ $containerBuilder->addDefinitions([
     },
     PDO::class => function()
     {
-        return new PDO('mysql:host=localhost;dbname=marlin', 'root', '');
+        return new PDO('mysql:host=localhost;dbname=marlin', 'root', '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     },
     Auth::class => function($container)
     {
@@ -44,8 +45,12 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/login', ['App\controllers\LoginController', 'showForm']);
     $r->get('/logout', ['App\controllers\LoginController', 'logout']);
     $r->post('/login', ['App\controllers\LoginController', 'login']);
+    $r->get('/password-recovery', ['App\controllers\RecoveryPasswordController', 'showForm']);
+    $r->post('/password-recovery', ['App\controllers\RecoveryPasswordController', 'recovery']);
+    $r->get('/password-recovery/form', ['App\controllers\RecoveryPasswordController', 'showSetForm']);
+    $r->post('/password-recovery/change', ['App\controllers\RecoveryPasswordController', 'change']);
     $r->get('/register', ['App\controllers\RegisterController', 'showForm']);
-    $r->post('/register', ['App\controllers\RegisterController', 'registration']);
+    $r->post('/register', ['App\controllers\RegisterController', 'register']);
     $r->get('/verify_email', ['App\controllers\VerificationController', 'verify']);
 
     $r->get('/profile/info', ['App\controllers\ProfileController', 'showProfileInfo']);
@@ -63,8 +68,34 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/photos/{id:\d+}/edit', ['App\controllers\PhotoController', 'edit']);
     $r->post('/photos/{id:\d+}/update', ['App\controllers\PhotoController', 'update']);
     $r->get('/photos/{id:\d+}/delete', ['App\controllers\PhotoController', 'delete']);
-
     $r->get('/photos/download/{id:\d+}', ['App\controllers\PhotoController', 'download']);
+    $r->post('/photos/{id:\d}/download/', ['App\controllers\PhotoController', 'download']);
+
+    $r->addGroup('/admin', function (RouteCollector $r) {
+        $r->get( '', ['App\controllers\Admin\HomeController', 'index']);
+
+        $r->get( '/photos', ['App\controllers\Admin\PhotosController', 'index']);
+        $r->get( '/photos/create', ['App\controllers\Admin\PhotosController', 'create']);
+        $r->post( '/photos/store', ['App\controllers\Admin\PhotosController', 'store']);
+        $r->get( '/photos/{id:\d+}/edit', ['App\controllers\Admin\PhotosController', 'edit']);
+        $r->post( '/photos/{id:\d+}/update', ['App\controllers\Admin\PhotosController', 'update']);
+        $r->get( '/photos/{id:\d+}/delete', ['App\controllers\Admin\PhotosController', 'delete']);
+
+        $r->get( '/category', ['App\controllers\Admin\CategoryController', 'index']);
+        $r->get( '/category/create', ['App\controllers\Admin\CategoryController', 'create']);
+        $r->post( '/category/store', ['App\controllers\Admin\CategoryController', 'store']);
+        $r->get( '/category/{id:\d+}/edit', ['App\controllers\Admin\CategoryController', 'edit']);
+        $r->post( '/category/{id:\d+}/update', ['App\controllers\Admin\CategoryController', 'update']);
+        $r->get( '/category/{id:\d+}/delete', ['App\controllers\Admin\CategoryController', 'delete']);
+
+        $r->get( '/users', ['App\controllers\Admin\UserController', 'index']);
+        $r->get( '/users/create', ['App\controllers\Admin\UserController', 'create']);
+        $r->post( '/users/store', ['App\controllers\Admin\UserController', 'store']);
+        $r->get( '/users/{id:\d+}/edit', ['App\controllers\Admin\UserController', 'edit']);
+        $r->post( '/users/{id:\d+}/update', ['App\controllers\Admin\UserController', 'update']);
+        $r->get( '/users/{id:\d+}/delete', ['App\controllers\Admin\UserController', 'delete']);
+
+    });
 
 });
 

@@ -1,7 +1,7 @@
 {
   "require": {
     "illuminate/support": "^5.5",
-    "delight-im/auth": "^7.2",
+    "delight-im/auth": "^8.0.2",
     "aura/sqlquery": "^2.7",
     "nikic/fast-route": "^1.2",
     "php-di/php-di": "^5.4",
@@ -10,7 +10,8 @@
     "tamtamchik/simple-flash": "^1.2",
     "swiftmailer/swiftmailer": "^6.0",
     "league/plates": "3.*",
-    "jasongrimes/paginator": "~1.0"
+    "jasongrimes/paginator": "~1.0",
+    "ext-pdo": "*"
   },
 
   "autoload": {

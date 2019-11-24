@@ -17,11 +17,12 @@
         <div class="column"></div>
 
         <div class="column is-quarter auth-form">
+            <?= flash();?>
             <form action="/register" method="post">
                 <div class="field">
                     <label class="label">Ваше имя</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input" type="text" name="login">
+                        <input class="input" type="text" name="username">
                         <span class="icon is-small is-left">
                       <i class="fas fa-user"></i>
                     </span>
@@ -55,7 +56,7 @@
                 <div class="field">
                     <label class="label">Подтвердите пароль</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input" type="password" name="confirm-password">
+                        <input class="input" type="password" name="password_confirmation">
                         <span class="icon is-small is-left">
                       <i class="fas fa-lock"></i>
                     </span>
@@ -65,7 +66,7 @@
                 <div class="field">
                     <div class="control">
                         <label class="checkbox">
-                            <input type="checkbox" name="rule-access">
+                            <input type="checkbox" name="terms">
                             Я согласен с <a href="#">правилами сайта</a>
                         </label>
                     </div>

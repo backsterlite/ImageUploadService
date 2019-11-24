@@ -73,17 +73,21 @@ class Database
             ->bindValue('id', $id);   // bind one value to a placeholder;
         // prepare the statement
         $sth = $this->pdo->prepare($update->getStatement());
+        try {
+            // execute with bound values
+            $res = $sth->execute($update->getBindValues());
+        }catch(\PDOException $exception){
+            echo 'error' .  $exception->getMessage();
+        }
 
-        // execute with bound values
-        $sth->execute($update->getBindValues());
     }
 
-    public function create($data)
+    public function create($table, $data)
     {
         $insert = $this->queryFactory->newInsert();
 
         $insert
-            ->into('photos')                   // INTO this table
+            ->into($table)                   // INTO this table
             ->cols($data);
 
         // prepare the statement

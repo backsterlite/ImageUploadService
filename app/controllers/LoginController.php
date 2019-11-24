@@ -51,7 +51,7 @@ class LoginController extends Controller
     public function logout()
     {
         try {
-            $this->auth->logOutAndDestroySession();
+            $this->auth->logOut();
             return redirect('/');
         }
         catch (\Delight\Auth\NotLoggedInException $e) {
